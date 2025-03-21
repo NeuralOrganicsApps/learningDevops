@@ -1,6 +1,24 @@
-const {Addition, Subtraction, Multiplication, Division} = require("./Application/Functions/functionsExport")
-console.log("hello devops")
-console.log("Addition = >" ,Addition(2,3))
-console.log("Subtraction = >" ,Subtraction(2,3))
-console.log("Multiplication = >" ,Multiplication(2,3))
-console.log("Division = >" ,Division(2,3))
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const {
+  Addition,
+  Subtraction,
+  Multiplication,
+  Division,
+} = require("./Application/Functions/functionsExport");
+const { env } = require("./Application/Environment/Index");
+
+//middleware
+app.use(cors());
+app.use(express.json())
+
+app.post("/add", (req, res) => {
+  const { x, y } = req.body;
+  const result = Addition(x, y);
+  res.json({ status: true, msg: result });
+});
+
+app.listen(env.PORT, () => {
+  console.log("Server started");
+});
